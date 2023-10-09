@@ -27,6 +27,7 @@ parser.add_argument("snv_input", type=str, help="Path of the snv input.")
 parser.add_argument("cn_input", type=str, help="Path of the copy number input.")
 parser.add_argument("purity_input", type=str, help="Path of the purity input.")
 parser.add_argument("-i", "--sample_id", type=str, default="sample_id", help="Name of the sample being processed. Default is 'sample'.")
+parser.add_argument("-O", "--out_dir", type=str, default=".", help="Base dir for outputs. Default is .")
 parser.add_argument("-b", "--subsampling", action='store_true', help="Whether doing subsampling or not. Default is not doing the subsampling, and a flag -b is needed when you want to do subsampling.")
 parser.add_argument("-l", "--lam", type=float, help="The penalty parameter (lambda), which usually takes values from 0.01-0.25. If skipping this parameter, it will return a list of results that take value of [0.01, 0.03, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25] by default.")
 parser.add_argument("-p", "--preprocess", type=str, default="preprocess_result/", help="Directory that stores the preprocess results. Default name is 'preprocess_result/'.")
@@ -42,6 +43,7 @@ args = parser.parse_args()
 run_preprocess = os.path.join(current_dir, "src/preprocess.R")
 sample_id = args.sample_id
 sample_id = sample_id.strip()
+out_dir = args.out_dir.strip()
 final_result = args.final.strip()
 
 if sample_id == "":
@@ -70,7 +72,7 @@ if args.lam is not None:
         sys.stderr.write(err)
         sys.exit(-1)
 
-result_dir = os.path.join(current_dir, sample_id)
+result_dir = os.path.join(out_dir, sample_id)
 if not os.path.exists(result_dir):
     os.makedirs(result_dir)
 
