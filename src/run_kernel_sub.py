@@ -161,29 +161,19 @@ def run_clip_sub(prefix, preliminary_result, Lambda_list, No_subsampling, rep, w
 
         for _lambda in Lambda_list:
             _phi_file_path = os.path.join(preliminary_result, "lam%s_phi.txt" %(_lambda))
+            _phi_file_path_new = os.path.join(preliminary_result, "lam%s_phi_rep%s.txt" %(_lambda, j))
+
             _label_file_path = os.path.join(preliminary_result, "lam%s_label.txt" %(_lambda))
-            
+            _label_file_path_new = os.path.join(preliminary_result, "lam%s_label_rep%s.txt" %(_lambda, j))
+
             _sum_old_file_path = os.path.join(preliminary_result, "lam%s_summary_table.txt" %(_lambda))
             _sum_new_file_path = os.path.join(preliminary_result, "lam%s_rep%s.txt" %(_lambda, j))
-            
+
             try:
-                os.remove(_phi_file_path)
-                os.remove(_label_file_path)
+                # os.remove(_phi_file_path)
+                # os.remove(_label_file_path)
                 os.rename(_sum_old_file_path, _sum_new_file_path)
+                os.rename(_phi_file_path, _phi_file_path_new)
+                os.rename(_label_file_path, _label_file_path_new)
             except Exception as err:
                 sys.stderr.write(err)
-
-        
-        
-if __name__ == "__main__":
-    root = "/Users/sji/Documents/Programming/CliP/"
-    sample_id = "sample_id"
-    preliminary_result = root + sample_id + "/preliminary_result/"
-    prefix = root + sample_id + "/preprocess_result/"
-    
-    Lambda_list = [0.01,0.03,0.05,0.075,0.1,0.125,0.15,0.175,0.2,0.225,0.25]
-    
-    run_clip_sub(prefix, preliminary_result, Lambda_list, 200, 3, 0.5, 0)
-    
-    
-    
